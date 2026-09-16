@@ -26,6 +26,13 @@ def add_place(name, city, status, note):
     }
     places.append(new_place)
 
+def mark_visited(name):
+    for place in places:
+        if place["name"]==name:
+            place["status"] = "Visited"
+            return
 
-add_place("Italy", "Rome", "Not Visited", "Want to see the Colosseum")     
+
+add_place("Italy", "Rome", "Not Visited", "Want to see the Colosseum") 
+mark_visited("Italy")    
 list_places()
