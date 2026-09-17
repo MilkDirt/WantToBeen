@@ -1,3 +1,28 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+class Place(BaseModel):
+    name: str
+    city: str
+    status: str
+    note: str
+
+app = FastAPI()
+
+@app.get("/places")
+def get_places():
+    return places
+
+@app.post("/places")
+def create_place(place: Place):
+    add_place(place.name, place.city, place.status, place.note)
+    return {"message": "Place added"}
+
+@app.patch("/places/{name}")
+def visit_place(name: str):
+    mark_visited(name)
+    return {"message": f"{name} marked as visited"}
+
 places = [
     {
     "name": "Japan", 
