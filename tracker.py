@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+import sqlite3
 
 class Place(BaseModel):
     name: str
@@ -8,6 +9,13 @@ class Place(BaseModel):
     note: str
 
 app = FastAPI()
+
+""" Sql code """
+
+sqlite3.connect("Tracker.db")
+
+
+""" Fast API code"""
 
 @app.get("/places")
 def get_places():
@@ -23,6 +31,8 @@ def visit_place(name: str):
     mark_visited(name)
     return {"message": f"{name} marked as visited"}
 
+""" Table """
+
 places = [
     {
     "name": "Japan", 
@@ -37,6 +47,8 @@ places = [
     "note": "Very cool place, would like to go again"
 }
 ]
+
+""" Functions """
 
 def list_places():
     for place in places:
