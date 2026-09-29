@@ -10,12 +10,36 @@ class Place(BaseModel):
 
 app = FastAPI()
 
-""" Sql code """
+# Table
 
-sqlite3.connect("Tracker.db")
+places = [
+    {
+    "name": "Japan",
+    "city": "Tokyo", 
+    "status": "Not Visited",
+    "note": "I want to visit"
+},
+{
+    "name": "Poland", 
+    "city": "Warsaw", 
+    "status": "Visited",
+    "note": "Very cool place, would like to go again"
+}
+]
+
+# Sql code
+
+with sqlite3.connect("Tracker.db") as conn:
+    cursor = conn.cursor()
+     
+    # create table
+    cursor.execute(''' CREATE TABLE IF NOT EXISTS places(name TEXT, city TEXT, status TEXT, note TEXT, id INTEGER PRIMARY KEY)''')
+
+    cursor.execute("SELECT * FROM places")
+    print(cursor.fetchall())
 
 
-""" Fast API code"""
+# Fast API code
 
 @app.get("/places")
 def get_places():
@@ -30,23 +54,6 @@ def create_place(place: Place):
 def visit_place(name: str):
     mark_visited(name)
     return {"message": f"{name} marked as visited"}
-
-""" Table """
-
-places = [
-    {
-    "name": "Japan", 
-    "city": "Tokyo", 
-    "status": "Not Visited",
-    "note": "I want to visit"
-},
-{
-    "name": "Poland", 
-    "city": "Warsaw", 
-    "status": "Visited",
-    "note": "Very cool place, would like to go again"
-}
-]
 
 """ Functions """
 
