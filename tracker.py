@@ -62,13 +62,9 @@ def list_places():
         print(place)
 
 def add_place(name, city, status, note):
-    new_place = {
-        "name": name,
-        "city": city,
-        "status": status,
-        "note": note
-    }
-    places.append(new_place)
+    with sqlite3.connect("Tracker.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO places (name, city, status, note) VALUES (?, ?, ?, ?)", (name, city, status, note))
 
 def mark_visited(name):
     for place in places:
@@ -80,3 +76,11 @@ def mark_visited(name):
 add_place("Italy", "Rome", "Not Visited", "Want to see the Colosseum") 
 mark_visited("Italy")    
 list_places()
+
+
+new_place = {
+        "name": name,
+        "city": city,
+        "status": status,
+        "note": note
+    }
