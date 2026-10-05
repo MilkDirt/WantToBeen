@@ -43,7 +43,12 @@ with sqlite3.connect("Tracker.db") as conn:
 
 @app.get("/places")
 def get_places():
-    return places
+    with sqlite3.connect("Tracker.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM places")
+        cursor.fetchall(place)
+        return place
+
 
 @app.post("/places")
 def create_place(place: Place):
